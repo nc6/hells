@@ -1,8 +1,8 @@
 module Hells.Setter(
     set
   , answer
-  , Response(..)
-  ) where
+  , Game()
+) where
   
   import Data.List (intersect, nub, zip)
   import System.Random
@@ -10,20 +10,16 @@ module Hells.Setter(
   import Hells.Common
 
   -- | Game place
-  data Game = Game Place deriving Show
-
-  -- | Response
-  data Response = TryAgain Int Int -- ^ TryAgain bulls cows
-                | Victory
+  data Game = Game Guess deriving Show
 
   -- | Set a new game
   set :: IO Game
   set = newStdGen >>= \rand ->
-    return . Game . Place $ take 4 . nub $ randomRs (0,9) rand
+    return . Game . Guess $ take 4 . nub $ randomRs (0,9) rand
 
   -- | Answer a guess.
-  answer :: Game -> Place -> Response
-  answer (Game (Place a)) (Place b) = case (bulls, cows) of
+  answer :: Game -> Guess -> Response
+  answer (Game (Guess a)) (Guess b) = case (bulls, cows) of
       (4, 0) -> Victory
       (b, c) -> TryAgain bulls cows
     where

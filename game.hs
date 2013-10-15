@@ -5,6 +5,7 @@ module Main where
 
   import Hells.Common
   import Hells.Setter
+  import Hells.Guesser
 
   main :: IO ()
   main = do
@@ -12,8 +13,8 @@ module Main where
     putStrLn $ show game
     forever $ getLine >>= putStrLn . writeAnswer . answer game . readGuess
 
-  readGuess :: String -> Place
-  readGuess = Place . map digitToInt
+  readGuess :: String -> Guess
+  readGuess = Guess . map digitToInt
 
   writeAnswer :: Response -> String
   writeAnswer (TryAgain bulls cows) = (show bulls) ++ " bulls and " ++ (show cows) ++ " cows."
