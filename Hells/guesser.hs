@@ -5,20 +5,28 @@ module Hells.Guesser where
   
   data Move = Move Guess Response
 
-  -- | A state is a series of guesses.
-  type State = [Move]
+  class GameState a where 
+    hzero :: a
+    hupdate :: Move -> a -> a
 
-  -- | Guesser takes a state and emits the next guess.
-  type Guesser = State -> Guess
+  -- | History is maintained by the play function
+  type History = [Move]
+
+  -- | Guesser takes a history and emits the next guess.
+  type Guesser a = a -> Guess
 
   -- | Result - can either win or give up after a certain number of tries.
-  data Result = Win State | GiveUp Int
+  data Result = Win History | GiveUp Int
 
-  play :: Guesser -> Game -> Int -> Result
-  play guesser game maxTries = move [] where
-    move state 
-      | length state > maxTries = GiveUp maxTries
-      | otherwise = let guess = guesser state in
-          case answer game guess of
-            Victory -> Win $ (Move guess Victory) : state
-            t -> move $ (Move guess t) : state
+  play :: GameState a => Guesser a -> Game -> Int -> Result
+  play guesser game maxTries = move [] hzero where
+    move history state 
+      | length history > maxTries = GiveUp maxTries
+      | otherwise = let 
+            guess = guesser state 
+            response = answer game guess
+            nextmove = Move guess response
+            newhistory = nextmove : history
+          in case response of
+            Victory -> Win newhistory
+            _ -> move newhistory (hupdate nextmove state)

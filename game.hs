@@ -10,7 +10,7 @@ module Main where
   main :: IO ()
   main = do
     game <- set
-    putStrLn $ show game
+    --putStrLn $ show game
     forever $ getLine >>= putStrLn . writeAnswer . answer game . readGuess
 
   readGuess :: String -> Guess
