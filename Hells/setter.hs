@@ -9,8 +9,9 @@ module Hells.Setter(
 
   import Hells.Common
 
+  type Solution = Guess
   -- | Game place
-  data Game = Game Guess deriving Show
+  data Game = Game Solution deriving Show
 
   -- | Set a new game
   set :: IO Game
