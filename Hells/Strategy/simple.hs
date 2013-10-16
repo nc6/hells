@@ -7,11 +7,11 @@ module Hells.Strategy.Simple where
   newtype State = State { unState :: [[Int]] }
 
   instance GameState State where
-    hzero = State [[a,b,c,d] | a <- [0 .. 9]
+    szero = State [[a,b,c,d] | a <- [0 .. 9]
                        , b <- [0 .. 9] \\ [a]
                        , c <- [0 .. 9] \\ [a,b]
                        , d <- [0 .. 9] \\ [a,b,c]]
-    hupdate (Move (Guess a) r) = State . filter (\b -> score a b == r) . unState
+    supdate (Move (Guess g) r) = State . filter (\g2 -> score g g2 == r) . unState
 
   guess :: Guesser State
   guess = Guess . head . unState

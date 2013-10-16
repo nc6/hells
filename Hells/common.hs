@@ -13,7 +13,7 @@ module Hells.Common where
   score :: [Int] -> [Int] -> Response
   score a b = case (bulls, cows) of
       (4, 0) -> Victory
-      (b, c) -> TryAgain bulls cows
+      _ -> TryAgain bulls cows
     where
       cows = (length $ intersect a b) - bulls
       bulls = length . filter (\(x,y) -> x == y) $ zip a b

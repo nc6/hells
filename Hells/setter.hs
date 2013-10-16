@@ -4,14 +4,13 @@ module Hells.Setter(
   , Game()
 ) where
   
-  import Data.List (intersect, nub, zip)
+  import Data.List (nub)
   import System.Random
 
   import Hells.Common
 
-  type Solution = Guess
-  -- | Game place
-  data Game = Game Solution deriving Show
+  -- | Game solution
+  data Game = Game Guess deriving Show
 
   -- | Set a new game
   set :: IO Game
@@ -20,4 +19,4 @@ module Hells.Setter(
 
   -- | Answer a guess.
   answer :: Game -> Guess -> Response
-  answer (Game (Guess a)) (Guess b) = score a b
+  answer (Game (Guess s)) (Guess g) = score s g

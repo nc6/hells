@@ -7,12 +7,12 @@ module Hells.Guesser where
   
   data Move = Move Guess Response deriving Show
 
-  class GameState a where 
-    hzero :: a
-    hupdate :: Move -> a -> a
-
   -- | History is maintained by the play function
   type History = [Move]
+
+  class GameState a where 
+    szero :: a
+    supdate :: Move -> a -> a
 
   -- | Guesser takes a history and emits the next guess.
   type Guesser a = a -> Guess
@@ -21,8 +21,8 @@ module Hells.Guesser where
   data Result = Win History | GiveUp Int deriving Show
 
   play :: GameState a => Guesser a -> Game -> Int -> Result
-  play guesser game maxTries = move [] hzero where
-    move history state 
+  play guesser game maxTries = go [] szero where
+    go history state 
       | length history > maxTries = GiveUp maxTries
       | otherwise = let 
             guess = guesser state 
@@ -31,7 +31,7 @@ module Hells.Guesser where
             newhistory = nextmove : history
           in case response of
             Victory -> Win newhistory
-            _ -> move newhistory (hupdate nextmove state)
+            _ -> go newhistory (supdate nextmove state)
 
   showResult :: Result -> String
   showResult (Win h) = intercalate "\n" . map showMove $ reverse h where
