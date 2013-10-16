@@ -3,7 +3,7 @@ module Hells.Guesser where
   import Hells.Common
   import Hells.Setter
   
-  data Move = Move Guess Response
+  data Move = Move Guess Response deriving Show
 
   class GameState a where 
     hzero :: a
@@ -16,7 +16,7 @@ module Hells.Guesser where
   type Guesser a = a -> Guess
 
   -- | Result - can either win or give up after a certain number of tries.
-  data Result = Win History | GiveUp Int
+  data Result = Win History | GiveUp Int deriving Show
 
   play :: GameState a => Guesser a -> Game -> Int -> Result
   play guesser game maxTries = move [] hzero where

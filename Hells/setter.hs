@@ -20,9 +20,4 @@ module Hells.Setter(
 
   -- | Answer a guess.
   answer :: Game -> Guess -> Response
-  answer (Game (Guess a)) (Guess b) = case (bulls, cows) of
-      (4, 0) -> Victory
-      (b, c) -> TryAgain bulls cows
-    where
-      cows = (length $ intersect a b) - bulls
-      bulls = length . filter (\(x,y) -> x == y) $ zip a b
+  answer (Game (Guess a)) (Guess b) = score a b

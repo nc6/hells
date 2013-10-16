@@ -6,7 +6,7 @@ version:             0.1.0.0
 synopsis:            Implementation of the game of Hells
 -- description:         
 license:             PublicDomain
-license-file:        LICENSE
+-- license-file:        LICENSE
 author:              Nicholas Clarke
 maintainer:          nc6@sanger.ac.uk
 -- copyright:           
@@ -24,4 +24,14 @@ executable hells
   build-depends:       base >=4.6 && <4.7
                       ,random
   -- hs-source-dirs:      
+  default-language:    Haskell2010
+
+library
+  exposed-modules:     Hells.Common
+                      ,Hells.Setter
+                      ,Hells.Guesser
+                      ,Hells.Strategy.Simple
+  GHC-Options:         -O2
+  build-depends:       base >=4.6 && < 5
+                      ,random
   default-language:    Haskell2010
