@@ -20,6 +20,7 @@ executable hells
   other-modules:       Hells.Common
                       ,Hells.Setter
                       ,Hells.Guesser
+                      ,Hells.Strategy.Simple
   -- other-extensions:    
   build-depends:       base >=4.6 && <4.7
                       ,random

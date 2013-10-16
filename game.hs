@@ -2,16 +2,20 @@ module Main where
 
   import Control.Monad (forever)
   import Data.Char (digitToInt)
+  import System.Environment (getArgs)
 
   import Hells.Common
   import Hells.Setter
   import Hells.Guesser
+  import qualified Hells.Strategy.Simple as Simple
 
   main :: IO ()
   main = do
+    args <- getArgs
     game <- set
-    --putStrLn $ show game
-    forever $ getLine >>= putStrLn . writeAnswer . answer game . readGuess
+    case args of
+      ["simple"] -> putStrLn . showResult $ play Simple.guess game 10
+      _ -> forever $ getLine >>= putStrLn . writeAnswer . answer game . readGuess
 
   readGuess :: String -> Guess
   readGuess = Guess . map digitToInt
