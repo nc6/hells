@@ -1,5 +1,7 @@
 module Hells.Guesser where
   
+  import Data.List (intercalate)
+
   import Hells.Common
   import Hells.Setter
   
@@ -30,3 +32,11 @@ module Hells.Guesser where
           in case response of
             Victory -> Win newhistory
             _ -> move newhistory (hupdate nextmove state)
+
+  showResult :: Result -> String
+  showResult (Win h) = intercalate "\n" . map showMove $ reverse h where
+    showMove (Move guess response) = show guess ++ "\n\t" ++ showResponse response
+    showResponse Victory = "Victory!"
+    showResponse (TryAgain bulls cows) = 
+      "You have " ++ (show cows) ++ " cows and " ++ (show bulls) ++ " bulls."
+  showResult (GiveUp x) = "Gave up after " ++ (show x) ++ " tries."
